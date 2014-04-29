@@ -72,24 +72,13 @@ var drawPowerTrans = function(){
 	var gainForDraw = 4;
 	var offset = 10;
 	powerTransContext.clearRect(0,0,_width,_height);
-	//閾値の描画
-	// powerTransContext.beginPath();			
-	// powerTransContext.moveTo(0, _height - thcoef * threshAudio * gainForDraw- offset);
-	// for(var i=1;i<powerTransElement.width;i++)
-	// {
-	// 	powerTransContext.lineTo(i, _height - thcoef * threshAudio * gainForDraw -offset);
-	// }
-	// powerTransContext.strokeStyle = "rgb(0, 0, 0)";
-	// powerTransContext.stroke();
-
-	//
 	powerTransContext.beginPath();
 	//状態の描画(沈黙)
 	for(var i=1;i<powerTransElement.width;i++)
 	{
 		if(powerTransData[i] < threshAudio*thcoef && powerTransData[i-1]<threshAudio*thcoef)
 		{
-			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw + offset);
+			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw );
 			//powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
 		}
 	}
@@ -101,24 +90,11 @@ var drawPowerTrans = function(){
 	{
 		if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
 		{
-			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw + offset);
+			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw );
 		}
 	}
 	powerTransContext.fillStyle = "rgb(200, 200, 255)";
 	powerTransContext.stroke();
-	//状態の描画()
-	// powerTransContext.beginPath();
-	// for(var i=1;i<powerTransElement.width;i++)
-	// {
-	// 	if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
-	// 	{
-	// 		powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw + offset);
-	// 	}
-	// }
-	// powerTransContext.fillStyle = "rgb(200, 200, 255)";
-	// powerTransContext.stroke();
-
-
 
 	//音量の描画
 	powerTransContext.beginPath();
@@ -129,39 +105,13 @@ var drawPowerTrans = function(){
 	}
 	powerTransContext.strokeStyle = "rgb(128,128,128)";
 	powerTransContext.stroke();
-
-
-	//音量の描画（発話時）
-	// powerTransContext.beginPath();
-	// powerTransContext.moveTo(0, 256 - powerTransData[0] * gainForDraw - offset );
-	// for(var i=1;i<powerTransElement.width;i++)
-	// {
-	// 	if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
-	// 	{
-	// 		powerTransContext.moveTo(i-1, 256 - powerTransData[i-1] * gainForDraw - offset );
-	// 		powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
-	// 	}
-	// }
-	// powerTransContext.strokeStyle = "rgb(100, 255, 100)";
-	// powerTransContext.stroke();
-
-
-
-
-	//盛り上がりの描画
-	// powerTransContext.beginPath();			
-	// powerTransContext.moveTo(0, _height - excitingData[0]*20 - offset);
-	// for(var i=1;i<powerTransElement.width-10;i++){
-	// 	powerTransContext.lineTo(i, _height - excitingData[i]*20 -offset);
-	// }
-	// powerTransContext.strokeStyle = "rgb(255, 0, 0)";
-	// powerTransContext.stroke();
-
 	var scoreContext = document.getElementById("scoreText");
-	scoreAudio=Math.min(100,parseInt(1000*meetingScore/(getTime()-orgTime)));
-	scoreTransition[0]=scoreAudio;
-	scoreContext.innerHTML = "声の得点："+ scoreAudio
-
+	//scoreAudio=Math.min(100,parseInt(1000*meetingScore/(getTime()-orgTime)));
+	scoreAudio=parseInt(1000*meetingScore/(getTime()-orgTime));
+	//scoreTransition[0]=scoreAudio;
+	scoreTransition[0] = Math.round( Math.min( Math.max(0,   42*Math.log10(scoreAudio)), 100));
+	scoreAudio = scoreTransition[0];
+	scoreContext.innerHTML = "声の得点："+ scoreTransition[0];
 
 	powerTransContext.beginPath();			
 	powerTransContext.moveTo(0, _height - scoreTransition[0]*2 - offset);
