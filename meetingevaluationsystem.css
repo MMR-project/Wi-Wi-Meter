@@ -1,20 +1,20 @@
 @charset "utf-8";
 a {
 color: #399;
-font-size: 28px;
+font-size: 20px;
 }
 
 a:hover {
 color: #C69;
-font-size: 28px;
+font-size: 20px;
 }
 a:visited {
 color: #699;
-font-size: 28px;
+font-size: 20px;
 }
 
 body {
-font: 14px/1.6 "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+font: 20px/1.6 "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
 color: #666;
 text-align: center;
 } 
