@@ -8,13 +8,13 @@ var frameNumberForFPS = 0;
 var frameNumber = 0;
 var startTime = null;
 var startCalibTime = null;
-var calibSpan = 5000;//キャリブレーションを行う時間
+var calibSpan = 10000;//キャリブレーションを行う時間
 var requestID;
 var moveCount = 0;
 var sumCount = 0;
 var numFrame = 0;
 var startTimeV=0;
-var scoreMovie=0;
+var scoreMovie=0;//動画のによる得点
 var brightThresh =10;//輝度差が閾値より10高ければ差分ありとする
 var movePixelThresh = 0.02;//2%が動いていたら動いていることとする
 
@@ -40,6 +40,18 @@ function videoInit(){
   contextVideo = canvasVideo.getContext("2d");
 };
 
+function calcScore(_moveCount, _sumCount){
+  var ratio = _moveCount / _sumCount;
+  ratio *= 250;
+  if(ratio <= 1){
+     return 0;
+  }
+  var saturation =  42 * Math.log10(ratio);
+  if(saturation > 100){
+     saturation = 100;
+  }
+  return Math.floor(saturation);
+}
 
 //フレームの処理
 function update(){
@@ -51,7 +63,7 @@ function update(){
       var currentTime = (new Date).getTime();            // in milliseconds
       var deltaTime = (currentTime - startTime)/1000.0;  // in seconds      
      if(sumCount>0){
-        scoreMovie = (Math.min(100, Math.floor((100*moveCount/sumCount)*1.7)));
+        scoreMovie = calcScore(moveCount, sumCount);
         document.querySelector("#point").innerHTML = "動きの得点："+ scoreMovie;
       } else  {
         scoreMovie = 0;
