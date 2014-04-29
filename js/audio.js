@@ -69,7 +69,7 @@ var drawPowerTrans = function(){
 		powerTransContext.stroke();	
 		return;
 	}
-	var gainForDraw = 4;
+	var gainForDraw = 2;
 	var offset = 10;
 	powerTransContext.clearRect(0,0,_width,_height);
 	powerTransContext.beginPath();
@@ -78,11 +78,11 @@ var drawPowerTrans = function(){
 	{
 		if(powerTransData[i] < threshAudio*thcoef && powerTransData[i-1]<threshAudio*thcoef)
 		{
-			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw );
+			//powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw +offset);
 			//powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
 		}
 	}
-	powerTransContext.fillStyle = "rgb(128, 255, 128)";
+	powerTransContext.fillStyle = "rgb(128, 128, 255)";
 	powerTransContext.stroke();
 	//状態の描画(発話)
 	powerTransContext.beginPath();
@@ -90,7 +90,8 @@ var drawPowerTrans = function(){
 	{
 		if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
 		{
-			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw );
+			//powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  -(thcoef*threshAudio*gainForDraw +offset));
+			powerTransContext.fillRect(i-1, 0, 1,  _height);
 		}
 	}
 	powerTransContext.fillStyle = "rgb(200, 200, 255)";
@@ -101,9 +102,11 @@ var drawPowerTrans = function(){
 	powerTransContext.moveTo(0, 256 - powerTransData[i-1] * gainForDraw - offset );
 	for(var i=1;i<powerTransElement.width;i++)
 	{
-		powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
+		powerTransContext.lineTo(i, (256 - powerTransData[i] * gainForDraw - offset));
 	}
-	powerTransContext.strokeStyle = "rgb(128,128,128)";
+	powerTransContext.strokeStyle = "rgb(192,192,192)";
+	//powerTransContext.strokeStyle = "rgb(64,64,64)";
+	powerTransContext.lineWidth= 1;
 	powerTransContext.stroke();
 	var scoreContext = document.getElementById("scoreText");
 	//scoreAudio=Math.min(100,parseInt(1000*meetingScore/(getTime()-orgTime)));
@@ -116,10 +119,11 @@ var drawPowerTrans = function(){
 	powerTransContext.beginPath();			
 	powerTransContext.moveTo(0, _height - scoreTransition[0]*2 - offset);
 	for(var i=1;i<powerTransElement.width-10;i++){
-		powerTransContext.lineTo(i, _height - scoreTransition[i]*2 -offset);
+		powerTransContext.lineTo(i, 2*_height - scoreTransition[i]*5.12);
 		//score
 	}
-	powerTransContext.strokeStyle = "rgb(255, 128, 128)";
+	powerTransContext.strokeStyle = "rgb(255, 200, 255)";
+	powerTransContext.lineWidth= 3;
 	powerTransContext.stroke();
 	
 }
