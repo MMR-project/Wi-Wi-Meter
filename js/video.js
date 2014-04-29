@@ -8,14 +8,16 @@ var frameNumberForFPS = 0;
 var frameNumber = 0;
 var startTime = null;
 var startCalibTime = null;
-var calibSpan = 15000;
+var calibSpan = 5000;//キャリブレーションを行う時間
 var requestID;
-//var lastTime = 0;
 var moveCount = 0;
 var sumCount = 0;
 var numFrame = 0;
 var startTimeV=0;
 var scoreMovie=0;
+var brightThresh =10;//輝度差が閾値より10高ければ差分ありとする
+var movePixelThresh = 0.02;//2%が動いていたら動いていることとする
+
 
 //過去の画像を保存するためのクラス
 function ImageMemory(iwidth, iheight){
@@ -69,22 +71,17 @@ function update(){
   if(startCalibTime != null){
      var currentTime = (new Date).getTime(); 
      if(currentTime - startCalibTime > calibSpan){
-        //alert("junp");
         startCalibTime = null;
         cancelAnimationFrame(requestID);
-        //video.pause();
         var audio = new Audio("");
         audio.autoplay = false;
         audio.src = "start.mp3";
         audio.load();
         audio.play();
         window.localStorage.setItem("threshPixels", ""+imageMemory.threshPixels)
-        //alert(window.localStorage.getItem("threshPixels"));
-        //location.href = "meeting.html";
         setFilter(dif);
      }
    }
-  //requestID = setTimeout(update, 250);//250msごとに繰り返す
 };
 //画像処理のフィルタをセットする関数
 function setFilter(f) {
@@ -128,6 +125,8 @@ calib = function(pixels, args) {
   frameNumber++;
   return pixels;
 };
+
+
 //動画の処理を行う関数
 function processVideoFrame() {
   if (contextVideo && video != null && video.videoWidth > 0 && video.videoHeight > 0) {
@@ -162,26 +161,16 @@ dif = function (pixels, args) {
       dl -= imageMemory.threshPixels[i];
       if(dl < 0){
         dl = 0;
-        //d[4 * i] = 0;
-        //d[4 * i + 1] = 0;
-        //d[4 * i + 2] = 0;
       }
-      else if(dl > 10){//輝度差が閾値より10高ければ差分ありとする
+      else if(dl > brightThresh){
         count++;
-        //d[4 * i] = 255;
-        //d[4 * i + 1] = 255;
-        //d[4 * i + 2] = 255;
       }
-
     }
   }
-  if(count > imageMemory.numPixel * 0.02){//2%が動いていたら動いていることとする
-     //document.getElementById("resultText").value += 1 + ",";
+  if(count > imageMemory.numPixel * movePixelThresh){
      moveCount ++;
   }
-  else{
-     // document.getElementById("resultText").value += 0 + ",";
-  }
+
   sumCount++;
   frameNumber ++;
   return pixels;
