@@ -26,17 +26,20 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 
 
 	var showSubjectiveEvaluation = function(){
-		var rc = new html5jp.graph.radar("sample");
+		var rc = new html5jp.graph.radar("evaluation");
 		if(rc != null) {
 			var items = average.slice(0, average.length);
-			items.unshift("主観評価");
+			items.unshift("評価");
+			items.push(score.audio, score.movie);
+			//items.push(score.movie):
 			var params = {
- 				aCap: ["新規性", "発言できた", "深い議論", "本音"],
+ 				aCap: ["新規性", "発言できた", "深い議論", "本音", "盛り上がり", "躍動感"],
  				aMax: 100
 			};
 			rc.draw([items], params);
 		}
 	};
+
 
 	var showObjectiveEvaluation = function(){
 		document.getElementById("scoreAudio").innerHTML =
@@ -44,6 +47,7 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 		document.getElementById("scoreMovie").innerHTML = 
 			'躍動感: <span class="value">' + score.movie + '</span> 点';
 	};
+
 
 	/*
 	 * save the result
