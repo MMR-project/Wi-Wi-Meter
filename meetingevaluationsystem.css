@@ -1,13 +1,16 @@
 @charset "utf-8";
 a {
 color: #399;
+font-size: 28px;
 }
 
 a:hover {
 color: #C69;
+font-size: 28px;
 }
 a:visited {
 color: #699;
+font-size: 28px;
 }
 
 body {
