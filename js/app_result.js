@@ -23,7 +23,7 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 	var answers = Storage.get("answer");
 	var history = Storage.get("history") || new History();
 	var average = answers.average();
-
+	var aveEnq = 0;
 
 	var showSubjectiveEvaluation = function(){
 		var rc = new html5jp.graph.radar("evaluation");
@@ -31,20 +31,21 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 			var items = average.slice(0, average.length);
 			items.unshift("評価");
 			items.push(score.audio, score.movie);
-			//items.push(score.movie):
 			var params = {
  				aCap: ["新規性", "発言できた", "深い議論", "本音", "盛り上がり", "躍動感"],
  				aMax: 100
 			};
 			rc.draw([items], params);
+			aveEnq = (items[1] + items[2] + items[3] + items[4]) / 4;
 		}
 	};
 
 	var showObjectiveEvaluation = function(){
-		document.getElementById("scoreAudio").innerHTML =
-			'盛り上がり: <span class="value">' + score.audio + '</span> 点';
-		document.getElementById("scoreMovie").innerHTML = 
-			'躍動感: <span class="value">' + score.movie + '</span> 点';
+		aveMon = (score.audio + score.movie) / 2;
+		document.getElementById("scoreMon").innerHTML =
+			'モニタ点: <span class="value">' + aveMon + '</span> 点';
+		document.getElementById("scoreEnq").innerHTML = 
+			'アンケート点: <span class="value">' + aveEnq + '</span> 点';
 	};
 
 
