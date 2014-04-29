@@ -77,12 +77,7 @@ function update(){
      var currentTime = (new Date).getTime(); 
      if(currentTime - startCalibTime > calibSpan){
         startCalibTime = null;
-        cancelAnimationFrame(requestID);
-        var audio = new Audio("");
-        audio.autoplay = false;
-        audio.src = "start.mp3";
-        audio.load();
-        audio.play();
+        //cancelAnimationFrame(requestID);
         window.localStorage.setItem("threshPixels", ""+imageMemory.threshPixels)
         setFilter(dif);
      }
@@ -91,7 +86,7 @@ function update(){
 
 //画像処理のフィルタをセットする関数
 function setFilter(f) {
-  frameNumber = -15;
+  frameNumber = 0;
   imageFilter = f;
 };
 
@@ -109,7 +104,7 @@ function processImage() {
 calib = function(pixels, args) {
   var d = pixels.data;
   var avg = 0;
-  if(frameNumber <= 0){
+  if(frameNumber == 0){
     for (var i = 0; i < imageMemory.numPixel; i ++) {
       imageMemory.lastPixels[i] = d[4 * i + 1];
       imageMemory.threshPixels[i] = 0;
