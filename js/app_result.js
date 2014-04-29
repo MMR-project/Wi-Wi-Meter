@@ -40,7 +40,6 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 		}
 	};
 
-
 	var showObjectiveEvaluation = function(){
 		document.getElementById("scoreAudio").innerHTML =
 			'盛り上がり: <span class="value">' + score.audio + '</span> 点';
