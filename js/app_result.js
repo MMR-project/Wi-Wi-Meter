@@ -42,6 +42,9 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 
 	var showObjectiveEvaluation = function(){
 		aveMon = (score.audio + score.movie) / 2;
+		scoreTotal = (aveMon + aveEnq) / 2;
+		document.getElementById("scoreTotal").innerHTML = 
+			'総合点: <span class="value">' + scoreTotal + '</span> 点';
 		document.getElementById("scoreMon").innerHTML =
 			'モニタ点: <span class="value">' + aveMon + '</span> 点';
 		document.getElementById("scoreEnq").innerHTML = 
