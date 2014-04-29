@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8"></head>
+		<script type="text/javascript" src="js/audio.js"></script>
+		<script type="text/javascript" src="js/video.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<meta http-equiv="Content-Style-type" content="text/css">
+		<link type="text/css" href="style.css" rel="stylesheet">
+	<body>
+	
+        <div class="button01" id="buttonStart" onclick="onClickStart();">スタート</div>
+		<!--<input type="checkbox" id="viewCheck">表示-->
+		<!--<input type="button" value="スタート" onclick="calibStart();"/>-->
+		<!--<audio src="mediastream:c38077e5-1528-45c2-a9e9-0a71ce6d1582" id="audio" autoplay="autoplay"></audio>-->
+		<!--<audio id="audio" autoplay></audio>-->
+		<!--<input type="button" value="スタート" onclick="calibStart();"/>-->
+		<table>
+			<tr><td><div id="scoreText">声の得点：</div></td></tr>
+		    <tr>
+				<td><canvas height="256" width="512" id="powertransition"></canvas></td>
+				<!--<td><canvas height="256" width="512" id="frequency"></canvas></td>-->
+		    </tr>
+		   <tr>
+			   <td><span id="point">動きの得点：</span></td>
+		   </tr>
+		    <tr>
+			    <td><canvas width="640" height="480" id="videoCanvas"></canvas></td>
+		    	<td><video id="video" width="640" height="480" autoplay mute style="display:none;"></video></td>
+		    </tr>
+		</table>
+		<embed src="start.wav" autostart="false" width="0" height="0" id="sound1"enablejavascript="true">
+		<span id="fps"></span>
+		<!--<div class="button02" id="buttonShow" onclick="onClickShowProcess();">過程表示ON</div>-->
+		<p>机の四隅が入るようにカメラの位置を調整してください</p>
+		<p><a href="calibration.html">音声の設定</a></p>
+	</body>
+</html>

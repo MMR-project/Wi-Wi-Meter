@@ -1,0 +1,100 @@
+@charset "utf-8";
+a {
+color: #399;
+}
+
+a:hover {
+color: #C69;
+}
+a:visited {
+color: #699;
+}
+
+body {
+font: 14px/1.6 "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;
+color: #666;
+text-align: center;
+} 
+
+input[type='range']::-moz-range-thumb {
+		-moz-appearance: none;
+		border-radius: 40px;
+		background-color: #FFF;
+		box-shadow:inset 0 0 10px rgba(000,000,000,0.5);
+		border: 1px solid #999;
+		height: 40px;
+		width: 40px;
+}
+
+input[type='button'] {
+    width: 130px;    
+    color: white!important;    
+    font-size: 30px;    
+    font-weight:bold;        
+    text-align:center;    
+    vertical-align: center;
+    display:block;    
+    text-decoration:none;    
+    border:1px solid #225588;    
+    padding: 5px 0 2px 0;    
+    border-radius:30px;    
+    background:-moz-linear-gradient(rgba(34,85,136,0.5), rgba(34,85,136,1));    
+    background: -webkit-gradient(linear, 100% 0%, 100% 100%, from(rgba(0, 102, 204, 0.5)), to(rgba(0, 112, 245, 1)));    
+    box-shadow:1px 2px 2px rgba(0,0,0,0.3), 0px 1px 0px rgba(255,255,255,0.5) inset, 0px -1px 0px rgba(255,255,255,0.2) inset;
+}
+
+/*
+ * for result.html
+ */
+body.excellent{
+	background: url(images/kin.png);
+}
+body.great{
+	background: url(images/niji.png);
+}
+body.good{
+	background: url(images/happa.png);
+}
+body.not_bad{
+	background: url(images/block.png);
+}
+
+#result canvas{
+	background-color: tranparent;
+}
+
+
+/*
+ * for resultlist.html
+ */
+.history{
+	display: block;
+	text-align: left;
+	max-width: 960px;
+	margin: auto;
+	list-style: none;
+}
+.history > li{
+	padding: 0.5em 1em;
+}
+.history > li:nth-child(odd){
+    background-color: #eee;
+}
+.history h2{
+	font-size: 100%;
+	font-weight: normal;
+}
+.history h3{
+	font-size: 100%;
+	display: inline-block;
+	margin: 0;
+	margin-right: 2em;
+	font-weight: normal;
+}
+.history span{
+	display: inline-block;
+	margin-right: 1em;
+}
+.history .date{
+	display: block;
+}
