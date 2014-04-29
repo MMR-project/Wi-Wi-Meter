@@ -24,9 +24,9 @@ function calibStart(){
   audio.autoplay = false;
   audio.src = "tenko.mp3";
   audio.load();
-  audio.play();
+  //audio.play();
   audio.onended=onEnded;
-  document.querySelector("#point").innerHTML = "準備中1・・・・";
+  //document.querySelector("#point").innerHTML = "準備中1・・・・";
   setFilter(calib);
 };
 function onEnded(){

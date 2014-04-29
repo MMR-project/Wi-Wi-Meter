@@ -39,6 +39,8 @@ var threshAudio=15;
 var frequencyData;
 //var timeDomainData = new Uint8Array(analyser.frequencyBinCount);
 var powerTransData;
+//var scoreData;
+var scoreTransition;
 var largePowerCountData;
 var veryLargePowerCountData;
 var excitingData;
@@ -67,49 +69,109 @@ var drawPowerTrans = function(){
 		powerTransContext.stroke();	
 		return;
 	}
-	var gainForDraw = 1;
+	var gainForDraw = 4;
 	var offset = 10;
 	powerTransContext.clearRect(0,0,_width,_height);
-	powerTransContext.beginPath();
-	powerTransContext.strokeStyle = "rgb(0, 0, 0)";
-	powerTransContext.moveTo(0, 256-powerTransData[0] * gainForDraw - offset );
-	for(var i=1;i<powerTransElement.width;i++){
-		powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
-	}
-	powerTransContext.stroke();	
-	powerTransContext.beginPath();			
-	powerTransContext.moveTo(0, _height - thcoef * threshAudio * gainForDraw- offset);
-	for(var i=1;i<powerTransElement.width;i++){
-		powerTransContext.lineTo(i, _height - thcoef * threshAudio * gainForDraw -offset);
-	}
-	powerTransContext.strokeStyle = "rgb(0, 0, 255)";
-	powerTransContext.stroke();
-	//発話しているかどうか
-	powerTransContext.beginPath();			
-	//powerTransContext.moveTo(0, 256 - largePowerCountData[0]*10 - offset);
-	powerTransContext.moveTo(0, _height - offset);
-	for(var i=1;i<powerTransElement.width;i++){
-		if(largePowerCountData[i]>largePowerCountData[i-1]){
-			powerTransContext.lineTo(i, offset);	
-		}else{
-			powerTransContext.lineTo(i, _height - offset);
+	//閾値の描画
+	// powerTransContext.beginPath();			
+	// powerTransContext.moveTo(0, _height - thcoef * threshAudio * gainForDraw- offset);
+	// for(var i=1;i<powerTransElement.width;i++)
+	// {
+	// 	powerTransContext.lineTo(i, _height - thcoef * threshAudio * gainForDraw -offset);
+	// }
+	// powerTransContext.strokeStyle = "rgb(0, 0, 0)";
+	// powerTransContext.stroke();
 
+	//
+	powerTransContext.beginPath();
+	//状態の描画(沈黙)
+	for(var i=1;i<powerTransElement.width;i++)
+	{
+		if(powerTransData[i] < threshAudio*thcoef && powerTransData[i-1]<threshAudio*thcoef)
+		{
+			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw + offset);
+			//powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
 		}
 	}
-	powerTransContext.strokeStyle = "rgb(0, 255, 0)";
+	powerTransContext.fillStyle = "rgb(128, 255, 128)";
 	powerTransContext.stroke();
-	//powerTransContext.fillText("dt="+parseInt(getTime()-startTime)+"ms", 10, 20, 80);
-	//powerTransContext.fillText("thresh="+ threshAudio, 10, 20, 80);
-	powerTransContext.beginPath();			
-	powerTransContext.moveTo(0, _height - excitingData[0]*20 - offset);
-	for(var i=1;i<powerTransElement.width-10;i++){
-		powerTransContext.lineTo(i, _height - excitingData[i]*20 -offset);
+	//状態の描画(発話)
+	powerTransContext.beginPath();
+	for(var i=1;i<powerTransElement.width;i++)
+	{
+		if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
+		{
+			powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw + offset);
+		}
 	}
-	powerTransContext.strokeStyle = "rgb(255, 0, 0)";
+	powerTransContext.fillStyle = "rgb(200, 200, 255)";
 	powerTransContext.stroke();
+	//状態の描画()
+	// powerTransContext.beginPath();
+	// for(var i=1;i<powerTransElement.width;i++)
+	// {
+	// 	if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
+	// 	{
+	// 		powerTransContext.fillRect(i-1, _height-thcoef*threshAudio*gainForDraw - offset, 1,  thcoef*threshAudio*gainForDraw + offset);
+	// 	}
+	// }
+	// powerTransContext.fillStyle = "rgb(200, 200, 255)";
+	// powerTransContext.stroke();
+
+
+
+	//音量の描画
+	powerTransContext.beginPath();
+	powerTransContext.moveTo(0, 256 - powerTransData[i-1] * gainForDraw - offset );
+	for(var i=1;i<powerTransElement.width;i++)
+	{
+		powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
+	}
+	powerTransContext.strokeStyle = "rgb(128,128,128)";
+	powerTransContext.stroke();
+
+
+	//音量の描画（発話時）
+	// powerTransContext.beginPath();
+	// powerTransContext.moveTo(0, 256 - powerTransData[0] * gainForDraw - offset );
+	// for(var i=1;i<powerTransElement.width;i++)
+	// {
+	// 	if(powerTransData[i] >= threshAudio*thcoef || powerTransData[i-1]>=threshAudio*thcoef)
+	// 	{
+	// 		powerTransContext.moveTo(i-1, 256 - powerTransData[i-1] * gainForDraw - offset );
+	// 		powerTransContext.lineTo(i, 256 - powerTransData[i] * gainForDraw - offset);
+	// 	}
+	// }
+	// powerTransContext.strokeStyle = "rgb(100, 255, 100)";
+	// powerTransContext.stroke();
+
+
+
+
+	//盛り上がりの描画
+	// powerTransContext.beginPath();			
+	// powerTransContext.moveTo(0, _height - excitingData[0]*20 - offset);
+	// for(var i=1;i<powerTransElement.width-10;i++){
+	// 	powerTransContext.lineTo(i, _height - excitingData[i]*20 -offset);
+	// }
+	// powerTransContext.strokeStyle = "rgb(255, 0, 0)";
+	// powerTransContext.stroke();
+
 	var scoreContext = document.getElementById("scoreText");
 	scoreAudio=Math.min(100,parseInt(1000*meetingScore/(getTime()-orgTime)));
-	scoreContext.innerHTML = "声の得点："+ scoreAudio;
+	scoreTransition[0]=scoreAudio;
+	scoreContext.innerHTML = "声の得点："+ scoreAudio
+
+
+	powerTransContext.beginPath();			
+	powerTransContext.moveTo(0, _height - scoreTransition[0]*2 - offset);
+	for(var i=1;i<powerTransElement.width-10;i++){
+		powerTransContext.lineTo(i, _height - scoreTransition[i]*2 -offset);
+		//score
+	}
+	powerTransContext.strokeStyle = "rgb(255, 128, 128)";
+	powerTransContext.stroke();
+	
 }
 function drawFrequency(){
 	//平均パワーのデータ更新
@@ -132,18 +194,7 @@ function drawFrequency(){
 
 }
 
-
-
-
-
-//function initialize() {
 function audioInit() {
-	//var audioElement = document.getElementById("audio");
-	//frequencyElement = document.getElementById("frequency");
-	//frequencyContext = frequencyElement.getContext("2d");
-	//frequencyElement.width = _width;
-	//frequencyElement.height = _height;
-
 	powerTransElement = document.getElementById("powertransition")
 	powerTransContext = powerTransElement.getContext("2d");
 	var scoreContext = document.getElementById("scoreText");
@@ -161,10 +212,12 @@ function audioInit() {
 	largePowerCountData = new Uint8Array(powerTransElement.width);
 	veryLargePowerCountData = new Uint8Array(powerTransElement.width);
 	excitingData = new Uint8Array(powerTransElement.width);
+	scoreTransition = new Uint8Array(powerTransElement.width);
 	for(var i=0;i<powerTransElement.width;i++){
 		powerTransData[i] = 0;
 		largePowerCountData[i]=0;
 		excitingData[i]=0;
+		scoreTransition[i]=0;
 	}
 	mkAudioFilter(filterData);
 	startTime=getTime();
@@ -188,6 +241,7 @@ function updateData(){
 		powerTransData[i] = powerTransData[i-1];
 		largePowerCountData[i]= largePowerCountData[i-1];
 		excitingData[i]=excitingData[i-1];
+		scoreTransition[i]=scoreTransition[i-1];
 	}	
 }
 function calcThresh(){
@@ -225,12 +279,9 @@ function audioAnimation(){
 		startTime=lastTime;
 		drawPowerTrans();
 		updateData();
-		//始めにしゃべらないでもらうつもり
-		//無発話時間のパワーの5倍をthreshにする
 		if(threshAudio<0){
 			calcThresh();
 		} else {
-			//var gain = 10;
 			powerTransData[0] = avgpower/frameCount;
 			largePowerCountData[0] = largePowerCount;
 			if(largePowerCountData[0]>largePowerCountData[1])
@@ -265,11 +316,6 @@ function audioAnimation(){
 	}
 	//以下フル速度
 	analyser.getByteFrequencyData(frequencyData);
-	//フィルタリング
-	for(var i=0;i<freqWidth;i++){
-		//frequencyData[i]*=filterData[i];
-		//frequencyData[i]=filterData[i]*255;
-	}
 	//盛り上がり判定
 	var currentPower=0;
 	currentPower+=frequencyData[0];
