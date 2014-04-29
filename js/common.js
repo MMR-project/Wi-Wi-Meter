@@ -41,7 +41,7 @@ function onClickStart(){
 		showResult();
 	} else {
 		calibStart();
-		btn1.innerHTML="ストップ"		
+		btn1.innerHTML="モニタ終了"		
 		processing=true;
 	}
 }
