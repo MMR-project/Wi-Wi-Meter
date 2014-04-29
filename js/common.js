@@ -33,19 +33,16 @@ function onEnded(){
     startCalibTime = (new Date).getTime();    
     audioInit();
     threshAudio = -1;
-    //alert("ok");
 }
 function onClickStart(){
     var btn1 = document.getElementById("buttonStart");
 	if(processing){
 		//btn1.innerHTML="スタート"
-		//processing=false;
 		showResult();
 	} else {
 		calibStart();
 		btn1.innerHTML="ストップ"		
 		processing=true;
-		//onClickStart();
 	}
 }
 function onClickShowProcess(){
@@ -53,7 +50,6 @@ function onClickShowProcess(){
 	if(showProcess==true){
 		btn2.innerHTML="過程表示OFF"
 		showProcess=false;
-		//document.getElementById("frequency").visibility=false;
 	}else{
 		btn2.innerHTML="過程表示ON"
 		showProcess=true;
@@ -61,10 +57,9 @@ function onClickShowProcess(){
 }
 
 function init(){
-	 videoElement= document.getElementById('video');
-     videoElement.volume=0.0;
-     contextVideo = document.getElementById('videoCanvas').getContext('2d');
-    //var localMediaStream = null; 
+	videoElement= document.getElementById('video');
+    videoElement.volume=0.0;
+    contextVideo = document.getElementById('videoCanvas').getContext('2d');
     audioInit();
     videoInit();
     window.URL = window.URL || window.webkitURL;

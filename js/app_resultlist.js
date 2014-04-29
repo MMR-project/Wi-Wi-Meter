@@ -1,7 +1,7 @@
 requirejs.config({
 	baseUrl: 'js',
     paths: {
-        lib: '../lib'
+        lib: './lib'
     },
 	shim: {
 		"lib/backbone": {

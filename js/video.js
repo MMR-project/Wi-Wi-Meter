@@ -21,7 +21,6 @@ var movePixelThresh = 0.02;//2%が動いていたら動いていることとす�
 
 //過去の画像を保存するためのクラス
 function ImageMemory(iwidth, iheight){
-  //console.log(iwidth + "*" + iheight);
   this.iwidth = iwidth;
   this.iheight = iheight;
   this.numPixel = iwidth*iheight;
@@ -34,13 +33,11 @@ function ImageMemory(iwidth, iheight){
 };
 
 //ロード時に呼ばれる関数
-//function onLoad(){
 function videoInit(){
   startTimeV = getTime();
   setFilter(null);
   canvasVideo= document.getElementById('videoCanvas');
   contextVideo = canvasVideo.getContext("2d");
-  //update();
 };
 
 
@@ -49,15 +46,11 @@ function update(){
   processVideoFrame();
   frameNumberForFPS++;
   if (startTime == null)
-    startTime = (new Date).getTime(); // in milliseconds  
-    
-  // Every 60 frames calculate our actual framerate and display it
+    startTime = (new Date).getTime(); 
   if (frameNumberForFPS >= 60) {
       var currentTime = (new Date).getTime();            // in milliseconds
-      var deltaTime = (currentTime - startTime)/1000.0;  // in seconds
-      
-        //document.querySelector("#fps").innerHTML = (Math.ceil(frameNumberForFPS/deltaTime) + " fps");
-      if(sumCount>0){
+      var deltaTime = (currentTime - startTime)/1000.0;  // in seconds      
+     if(sumCount>0){
         scoreMovie = (Math.min(100, Math.floor((100*moveCount/sumCount)*1.7)));
         document.querySelector("#point").innerHTML = "動きの得点："+ scoreMovie;
       } else  {
@@ -83,11 +76,13 @@ function update(){
      }
    }
 };
+
 //画像処理のフィルタをセットする関数
 function setFilter(f) {
   frameNumber = -15;
   imageFilter = f;
 };
+
 //画像を処理する関数
 function processImage() {
   if (canvasVideo.width > 0 && canvasVideo.height > 0) {
@@ -97,6 +92,7 @@ function processImage() {
     }
   }
 };
+
 //キャリブレーション処理
 calib = function(pixels, args) {
   var d = pixels.data;
