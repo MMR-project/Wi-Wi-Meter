@@ -8,7 +8,7 @@ var frameNumberForFPS = 0;
 var frameNumber = 0;
 var startTime = null;
 var startCalibTime = null;
-var calibSpan = 10000;//キャリブレーションを行う時間
+var calibSpan = 5000;//キャリブレーションを行う時間
 var requestID;
 var moveCount = 0;
 var sumCount = 0;
@@ -57,6 +57,7 @@ function calcScore(_moveCount, _sumCount){
 function update(){
   processVideoFrame();
   frameNumberForFPS++;
+  
   if (startTime == null)
     startTime = (new Date).getTime(); 
   if (frameNumberForFPS >= 60) {
@@ -72,7 +73,7 @@ function update(){
       startTime = currentTime;
       frameNumberForFPS = 0;
   }		   
-  
+
   if(startCalibTime != null){
      var currentTime = (new Date).getTime(); 
      if(currentTime - startCalibTime > calibSpan){

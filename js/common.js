@@ -28,6 +28,7 @@ function calibStart(){
   audio.onended=onEnded;
   //document.querySelector("#point").innerHTML = "準備中1・・・・";
   setFilter(calib);
+  startCalibTime = (new Date).getTime();
 };
 function onEnded(){
     startCalibTime = (new Date).getTime();    
