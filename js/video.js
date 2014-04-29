@@ -101,6 +101,8 @@ function processImage() {
   }
 };
 
+
+
 //キャリブレーション処理
 calib = function(pixels, args) {
   var d = pixels.data;
@@ -163,10 +165,16 @@ dif = function (pixels, args) {
       var dl = Math.abs(pixVal - imageMemory.lastPixels[i]);
       imageMemory.lastPixels[i] = pixVal;
       dl -= imageMemory.threshPixels[i];
+      d[4 * i] = 0;
+      d[4 * i + 1] = 0;
+      d[4 * i + 2] = 0;
       if(dl < 0){
         dl = 0;
       }
       else if(dl > brightThresh){
+        d[4 * i] = 200;
+        d[4 * i + 1] = 200;
+        d[4 * i + 2] = 200;
         count++;
       }
     }
