@@ -32,7 +32,7 @@ require(["lib/radar", "storage", "history", "history/item"], function(html5jp, S
 			items.unshift("評価");
 			items.push(score.audio, score.movie);
 			var params = {
- 				aCap: ["新規性", "発言できた", "深い議論", "本音", "盛り上がり", "躍動感"],
+ 				aCap: ["新規性 "+items[1], "発言できた "+items[2], "深い議論 "+items[3], "本音 "+items[4], "盛り上がり "+score.audio, "躍動感 "+score.movie],
  				aMax: 100
 			};
 			rc.draw([items], params);
