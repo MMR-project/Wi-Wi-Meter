@@ -1,10 +1,16 @@
 define(["questionnaire/result", "history"], function(Result, History){
 
 	var Storage = {
+    key: {
+      score: "score",
+      questionnaire: "questionnaire",
+      dataSlot: "data-slot",
+      defaultDataSlot: "history"
+    },
 		getScore: function(){
 			var score = null;
 			if(window.sessionStorage != null &&
-			   (score = window.sessionStorage.getItem("score")) != null){
+			   (score = window.sessionStorage.getItem(Storage.key.score)) != null){
 				score = JSON.parse(score);
 			}else{
 				var data = window.location.href.split("?")[1];
@@ -29,11 +35,11 @@ define(["questionnaire/result", "history"], function(Result, History){
 					audio: scoreAudio
 				};
 			}
-			window.sessionStorage.setItem("score", JSON.stringify(score));
+			window.sessionStorage.setItem(Storage.key.score, JSON.stringify(score));
 			document.location  ="questionnaire.html";
 		},
 		getAnswer: function(){
-			var json = window.sessionStorage.getItem("questionnaire") || "";
+			var json = window.sessionStorage.getItem(Storage.key.questionnaire) || "";
 			var result = null;
 			if(json.length > 0){
 				json = JSON.parse(json);
@@ -44,24 +50,35 @@ define(["questionnaire/result", "history"], function(Result, History){
 		setAnswer: function(result){
 			var json = "";
 			json = result.toJSON();
-			window.sessionStorage.setItem("questionnaire", json);
+			window.sessionStorage.setItem(Storage.key.questionnaire, json);
 		},
-		getHistory: function(){
+    getDataSlot: function(){
+      return window.sessionStorage.getItem(Storage.key.dataSlot) || Storage.key.defaultDataSlot;
+    },
+    setDataSlot: function(slot){
+      window.sessionStorage.setItem(Storage.key.dataSlot, slot);
+    },
+		getHistory: function(slot){
 			var result = null;
-			var json = window.localStorage.getItem("history") || "";
+      if(slot == null){
+        slot = Storage.getDataSlot();
+      }
+			var json = window.localStorage.getItem(slot) || "";
 			if(json.length > 0){
 				json = JSON.parse(json);
 				result = new History(json);
-			}
+			}else{
+        result = new History();
+      }
 			return result;
 		},
 		setHistory: function(history){
 			var json = "";
 			json = history.toJSON();
-			window.localStorage.setItem("history", json);
+			window.localStorage.setItem(Storage.getDataSlot(), json);
 		},
 		clearHistory: function(){
-			window.localStorage.setItem("history", null);
+			window.localStorage.setItem(Storage.getDataSlot(), null);
 		}
 	};
 

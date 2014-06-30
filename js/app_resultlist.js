@@ -1,23 +1,4 @@
-requirejs.config({
-	baseUrl: 'js',
-    paths: {
-        lib: './lib'
-    },
-	shim: {
-		"lib/backbone": {
-			deps: ["lib/underscore", "lib/jquery"],
-			exports: "Backbone"
-		},
-		"lib/underscore":{
-			exports: "_"
-		},
-		"lib/jquery": {
-			exports: "jQuery"
-		}
-	}
-});
-
-require(["storage", "history"], function(Storage){
+require(["config", "storage", "history"], function(config, Storage){
 
 	var formatDate = function(date){
 		return date.getFullYear() + "年" +
@@ -47,7 +28,7 @@ require(["storage", "history"], function(Storage){
 	};
 	
 	var heading = document.getElementById("results");
-	var history = Storage.get("history");
+	var history = Storage.getHistory();
 	var list = document.createElement("ul");
 	list.setAttribute("class", "history");
 	for(var i = 0; i < history.models.length; i++){
