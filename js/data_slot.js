@@ -1,4 +1,4 @@
-define(["lib/jquery", "lib/backbone", "Storage"], function($, Backbone, Storage){
+define(["lib/jquery", "lib/backbone", "storage"], function($, Backbone, Storage){
 
   var createButton = function(text, handler){
     return $("<a>").attr("href", "#").text(text).bind("click", handler);
